@@ -19,11 +19,11 @@ This fork continues the original API surface with current Angular and pdf.js too
 * [Install](#install)
 * [Requirements](#requirements)
 * [PDF.js assets](#pdfjs-assets)
+* [Configuration](#configuration)
 * [Usage](#usage)
 * [Zoneless support](#zoneless-support)
 * [Options](#options)
 * [Render local PDF file](#render-local-pdf-file)
-* [Set custom path to the worker](#set-custom-path-to-the-worker)
 * [Search in the PDF](#search-in-the-pdf)
 * [Contribute](#contribute)
 
@@ -39,7 +39,7 @@ npm install @seba174/ng2-pdf-viewer
 
 - Angular 21.0.0 or newer.
 - Node 22.13+ / 24+.
-- Modern browsers supported by `pdfjs-dist` 5.x, including Chrome 110+.
+- Modern browsers supported by Angular 21 and `pdfjs-dist` 5.x.
 
 ## PDF.js assets
 
@@ -71,7 +71,31 @@ If you configure assets manually, add these entries to the build target's `asset
 }
 ```
 
-The default worker path is `assets/pdfjs/legacy/build/pdf.worker.min.mjs`, resolved against the document base URL.
+The default runtime paths are resolved against the document base URL:
+
+- worker: `assets/pdfjs/legacy/build/pdf.worker.min.mjs`
+- cMaps: `assets/pdfjs/cmaps/`
+- viewer images: `assets/pdfjs/web/images/`
+
+## Configuration
+
+Most applications do not need runtime configuration. If your app serves PDF.js assets from a different path, configure the viewer once during bootstrap:
+
+```typescript
+import { providePdfViewer } from '@seba174/ng2-pdf-viewer';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    providePdfViewer({
+      workerSrc: '/static/pdfjs/pdf.worker.min.mjs',
+      cMapsUrl: '/static/pdfjs/cmaps/',
+      imageResourcesPath: '/static/pdfjs/web/images/'
+    })
+  ]
+});
+```
+
+Relative values are resolved against the document base URL.
 
 ## Usage
 
@@ -352,7 +376,7 @@ Url for non-latin characters source maps.
 [c-maps-url]="'assets/pdfjs/cmaps/'"
 ```
 
-Default url is `assets/pdfjs/cmaps/`, resolved against the document base URL.
+Default url is `assets/pdfjs/cmaps/`, resolved against the document base URL. You can also set the application default with `providePdfViewer({ cMapsUrl })`.
 
 To use a different path, copy `node_modules/pdfjs-dist/cmaps` to your chosen assets folder and pass that path to `[c-maps-url]`.
 
@@ -521,27 +545,6 @@ onFileSelected() {
     reader.readAsArrayBuffer($img.files[0]);
   }
 }
-```
-
-
-## Set custom path to the worker
-
-By default the `worker` is loaded from `assets/pdfjs/legacy/build/pdf.worker.min.mjs`, resolved against the document base URL.
-
-In your code update `path` to the worker to be for example `/pdf.worker.mjs`
-```typescript
-(window as any).pdfWorkerSrc = '/pdf.worker.mjs';
-```
-
-*This should be set before `pdf-viewer` component is rendered.*
-
-If you ever have a (super rare) edge case where you run in an environment that multiple
-components are somehow loaded within the same web page, sharing the same window,
-but using different versions of pdf.worker, support has been added.  You can do the
-above, except that you can append the specific version of pdfjs required and override the
-custom path *just for that version*.  This way setting the global window var won't conflict.
-```typescript
-(window as any)["pdfWorkerSrc5.7.284"] = '/pdf.worker.mjs';
 ```
 
 ## Search in the PDF

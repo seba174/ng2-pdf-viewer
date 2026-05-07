@@ -17,21 +17,7 @@ import type {
   ZoomScale
 } from './typings';
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
-
-
-// @ts-expect-error This does not exist outside of polyfill which this is doing
-if (typeof Promise.withResolvers === 'undefined' && typeof window !== 'undefined') {
-  // @ts-expect-error This does not exist outside of polyfill which this is doing
-  window.Promise.withResolvers = () => {
-    let resolve;
-    let reject;
-    const promise = new Promise((res, rej) => {
-      resolve = res;
-      reject = rej;
-    });
-    return { promise, resolve, reject };
-  };
-}
+import { PDF_VIEWER_CONFIG } from './pdf-viewer.config';
 
 
 export enum RenderTextMode {
@@ -61,7 +47,15 @@ function pageTransform(value: unknown): number {
   return Number.isFinite(n) && n > 0 ? n : 1;
 }
 
+const DEFAULT_WORKER_SRC = 'assets/pdfjs/legacy/build/pdf.worker.min.mjs';
+const DEFAULT_C_MAPS_URL = 'assets/pdfjs/cmaps/';
+const DEFAULT_IMAGE_RESOURCES_PATH = 'assets/pdfjs/web/images/';
+
 function resolveAssetUrl(path: string): string {
+  if (!path) {
+    return path;
+  }
+
   if (typeof document === 'undefined' || !document.baseURI) {
     return path;
   }
@@ -82,6 +76,7 @@ export class PdfViewerComponent
   implements OnChanges, OnInit, OnDestroy, AfterViewChecked {
   private element = inject<ElementRef<HTMLElement>>(ElementRef);
   private ngZone = inject(NgZone);
+  private config = inject(PDF_VIEWER_CONFIG);
 
   static CSS_UNITS = 96.0 / 72.0;
   static BORDER_WIDTH = 9;
@@ -97,11 +92,9 @@ export class PdfViewerComponent
 
   private isVisible = false;
 
-  private static readonly DEFAULT_WORKER_SRC = resolveAssetUrl(
-    'assets/pdfjs/legacy/build/pdf.worker.min.mjs'
+  private _imageResourcesPath = resolveAssetUrl(
+    this.config.imageResourcesPath ?? DEFAULT_IMAGE_RESOURCES_PATH
   );
-  private static readonly DEFAULT_C_MAPS_URL = resolveAssetUrl('assets/pdfjs/cmaps/');
-  private _imageResourcesPath = resolveAssetUrl('assets/pdfjs/web/images/');
   private _pdf: PDFDocumentProxy | undefined;
   private lastLoaded!: string | Uint8Array | PDFSource | null;
   private _latestScrolledPage!: number;
@@ -120,7 +113,7 @@ export class PdfViewerComponent
   readonly pageChange = output<number>();
   readonly src = input<string | Uint8Array | PDFSource>();
   readonly page = input(1, { alias: 'page', transform: pageTransform });
-  readonly cMapsUrl = input(PdfViewerComponent.DEFAULT_C_MAPS_URL, { alias: 'c-maps-url' });
+  readonly cMapsUrl = input(resolveAssetUrl(this.config.cMapsUrl ?? DEFAULT_C_MAPS_URL), { alias: 'c-maps-url' });
   readonly renderText = input(true, { alias: 'render-text' });
   readonly renderTextMode = input(RenderTextMode.ENABLED, { alias: 'render-text-mode' });
   readonly originalSize = input(true, { alias: 'original-size' });
@@ -158,24 +151,30 @@ export class PdfViewerComponent
       return;
     }
 
-    let pdfWorkerSrc: string;
+    assign(GlobalWorkerOptions, 'workerSrc', this.getWorkerSrc());
+  }
+
+  private getWorkerSrc(): string {
+    if (this.config.workerSrc) {
+      return resolveAssetUrl(this.config.workerSrc);
+    }
 
     const pdfJsVersion: string = (PDFJS as any).version;
     const versionSpecificPdfWorkerUrl: string = (window as any)[`pdfWorkerSrc${pdfJsVersion}`];
 
     if (versionSpecificPdfWorkerUrl) {
-      pdfWorkerSrc = versionSpecificPdfWorkerUrl;
-    } else if (
+      return versionSpecificPdfWorkerUrl;
+    }
+
+    if (
       window.hasOwnProperty('pdfWorkerSrc') &&
       typeof (window as any).pdfWorkerSrc === 'string' &&
       (window as any).pdfWorkerSrc
     ) {
-      pdfWorkerSrc = (window as any).pdfWorkerSrc;
-    } else {
-      pdfWorkerSrc = PdfViewerComponent.DEFAULT_WORKER_SRC;
+      return (window as any).pdfWorkerSrc;
     }
 
-    assign(GlobalWorkerOptions, 'workerSrc', pdfWorkerSrc);
+    return resolveAssetUrl(DEFAULT_WORKER_SRC);
   }
 
   ngAfterViewChecked(): void {

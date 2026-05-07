@@ -17,7 +17,7 @@
     "test:ci": "ng test --watch=false --browsers=ChromeHeadlessCustom",
     "test:w": "ng test",
     "lint": "ng lint",
-    "packagr": "ng-packagr -p ng-package.json",
+    "packagr": "ng-packagr -p ng-package.json -c tsconfig.packagr.json",
     "docs": "ng build --configuration production,docs && node -e \"require('node:fs').copyFileSync('docs/index.html','docs/404.html')\""
   },
   "private": false,
@@ -80,7 +80,7 @@
     "karma-jasmine-html-reporter": "~2.2.0",
     "ng-packagr": "^21.2.3",
     "rxjs": "~7.8.2",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.3",
     "typescript-eslint": "^8.59.2"
   }
 }

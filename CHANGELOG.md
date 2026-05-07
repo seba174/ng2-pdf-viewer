@@ -6,6 +6,9 @@
 - Document the required Angular asset copy configuration for CSP-compatible deployments.
 - Move the library source into `projects/ng2-pdf-viewer` so the demo app no longer owns the package code.
 - Add an Angular `ng add` schematic that configures PDF.js worker, cMap, and viewer image assets.
+- Add `providePdfViewer()` for Angular-native worker, cMap, and viewer image path configuration.
+- Remove the top-level `Promise.withResolvers` global polyfill from the library module.
+- Switch the development toolchain to TypeScript 6.0 and Node.js 24 CI.
 
 ## 21.0.0 - 17.04.2026
 

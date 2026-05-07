@@ -2,6 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
 
 import { PdfViewerComponent } from './pdf-viewer.component';
+import { providePdfViewer } from './pdf-viewer.config';
 
 import { GlobalWorkerOptions } from 'pdfjs-dist';
 import * as PDFJS from 'pdfjs-dist';
@@ -197,4 +198,54 @@ describe('AppComponent', () => {
       expect(GlobalWorkerOptions.workerSrc).toBe(`globaloverride`);
     })
   })
+});
+
+describe('PdfViewerComponent provider config', () => {
+  let pdfViewerFixture: ComponentFixture<PdfViewerComponent>;
+  let pdfViewer: PdfViewerComponent;
+
+  beforeEach(async () => {
+    const pdfJsVersion = (PDFJS as any).version;
+    (window as any).pdfWorkerSrc = 'global-worker.mjs';
+    (window as any)[`pdfWorkerSrc${pdfJsVersion}`] = 'global-version-worker.mjs';
+
+    await TestBed.configureTestingModule({
+      imports: [PdfViewerComponent],
+      providers: [
+        provideZonelessChangeDetection(),
+        providePdfViewer({
+          workerSrc: 'configured-worker.mjs',
+          cMapsUrl: 'configured-cmaps/',
+          imageResourcesPath: 'configured-images/'
+        })
+      ]
+    }).compileComponents();
+
+    pdfViewerFixture = TestBed.createComponent(PdfViewerComponent);
+    pdfViewer = pdfViewerFixture.debugElement.componentInstance;
+  });
+
+  afterEach(() => {
+    const pdfJsVersion = (PDFJS as any).version;
+    (window as any).pdfWorkerSrc = undefined;
+    (window as any)[`pdfWorkerSrc${pdfJsVersion}`] = undefined;
+  });
+
+  it('should use provider configuration before legacy global worker overrides', () => {
+    expect(GlobalWorkerOptions.workerSrc).toBe(
+      new URL('configured-worker.mjs', document.baseURI).toString()
+    );
+    expect(pdfViewer.cMapsUrl()).toBe(
+      new URL('configured-cmaps/', document.baseURI).toString()
+    );
+    expect((pdfViewer as any)._imageResourcesPath).toBe(
+      new URL('configured-images/', document.baseURI).toString()
+    );
+  });
+
+  it('should let c-maps input override provider configuration', () => {
+    pdfViewerFixture.componentRef.setInput('c-maps-url', 'input-cmaps/');
+
+    expect(pdfViewer.cMapsUrl()).toBe('input-cmaps/');
+  });
 });

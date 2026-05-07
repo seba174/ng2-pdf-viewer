@@ -85,13 +85,6 @@ export class AppComponent implements OnInit {
     xhr.send();
   }
 
-  /**
-   * Set custom path to pdf worker
-   */
-  setCustomWorkerPath() {
-    (window as any).pdfWorkerSrc = 'assets/pdfjs/legacy/build/pdf.worker.min.mjs';
-  }
-
   incrementPage(amount: number) {
     this.page.update(p => p + amount);
   }

@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit, signal, viewChild } from '@angular/core';
 import {
+  PdfViewerComponent,
   PDFDocumentProxy,
   PDFProgressData,
   PDFSource,
   ZoomScale
-} from './pdf-viewer/typings';
+} from '@seba174/ng2-pdf-viewer';
 
-import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { FormsModule } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
    * Set custom path to pdf worker
    */
   setCustomWorkerPath() {
-    (window as any).pdfWorkerSrc = '/lib/pdfjs-dist/build/pdf.worker.js';
+    (window as any).pdfWorkerSrc = 'assets/pdfjs/legacy/build/pdf.worker.min.mjs';
   }
 
   incrementPage(amount: number) {

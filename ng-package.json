@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
   "lib": {
-    "entryFile": "public_api.ts"
+    "entryFile": "projects/ng2-pdf-viewer/src/public-api.ts"
   },
+  "assets": [
+    "schematics/**/*"
+  ],
   "allowedNonPeerDependencies": ["pdfjs-dist"]
 }

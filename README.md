@@ -18,6 +18,7 @@ This fork continues the original API surface with current Angular and pdf.js too
 
 * [Install](#install)
 * [Requirements](#requirements)
+* [PDF.js assets](#pdfjs-assets)
 * [Usage](#usage)
 * [Zoneless support](#zoneless-support)
 * [Options](#options)
@@ -37,8 +38,40 @@ npm install @seba174/ng2-pdf-viewer
 ## Requirements
 
 - Angular 21.0.0 or newer.
-- Node 20.19+ / 22.12+ / 24+.
+- Node 22.13+ / 24+.
 - Modern browsers supported by `pdfjs-dist` 5.x, including Chrome 110+.
+
+## PDF.js assets
+
+The viewer uses same-origin PDF.js assets by default. No CDN URLs are loaded by the library.
+
+Run the Angular schematic to configure the worker, cMaps, and viewer images:
+
+```bash
+ng add @seba174/ng2-pdf-viewer
+```
+
+If you configure assets manually, add these entries to the build target's `assets` array:
+
+```json
+{
+  "glob": "pdf.worker.min.mjs",
+  "input": "node_modules/pdfjs-dist/legacy/build",
+  "output": "assets/pdfjs/legacy/build"
+},
+{
+  "glob": "**/*",
+  "input": "node_modules/pdfjs-dist/cmaps",
+  "output": "assets/pdfjs/cmaps"
+},
+{
+  "glob": "**/*",
+  "input": "node_modules/pdfjs-dist/web/images",
+  "output": "assets/pdfjs/web/images"
+}
+```
+
+The default worker path is `assets/pdfjs/legacy/build/pdf.worker.min.mjs`, resolved against the document base URL.
 
 ## Usage
 
@@ -316,12 +349,12 @@ Turn on or off auto resize.
 
 Url for non-latin characters source maps.
 ```
-[c-maps-url]="'assets/cmaps/'"
+[c-maps-url]="'assets/pdfjs/cmaps/'"
 ```
 
-Default url is `https://unpkg.com/pdfjs-dist@<version>/cmaps/` where `<version>` matches the bundled `pdfjs-dist` version.
+Default url is `assets/pdfjs/cmaps/`, resolved against the document base URL.
 
-To serve cmaps on your own you need to copy ```node_modules/pdfjs-dist/cmaps``` to ```assets/cmaps```.
+To use a different path, copy `node_modules/pdfjs-dist/cmaps` to your chosen assets folder and pass that path to `[c-maps-url]`.
 
 ### [show-borders]
 
@@ -493,7 +526,7 @@ onFileSelected() {
 
 ## Set custom path to the worker
 
-By default the `worker` is loaded from `cdn.jsdelivr.net`.
+By default the `worker` is loaded from `assets/pdfjs/legacy/build/pdf.worker.min.mjs`, resolved against the document base URL.
 
 In your code update `path` to the worker to be for example `/pdf.worker.mjs`
 ```typescript
@@ -508,7 +541,7 @@ but using different versions of pdf.worker, support has been added.  You can do 
 above, except that you can append the specific version of pdfjs required and override the
 custom path *just for that version*.  This way setting the global window var won't conflict.
 ```typescript
-(window as any)["pdfWorkerSrc5.6.205"] = '/pdf.worker.mjs';
+(window as any)["pdfWorkerSrc5.7.284"] = '/pdf.worker.mjs';
 ```
 
 ## Search in the PDF

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NgAddSchema",
+  "title": "@seba174/ng2-pdf-viewer ng-add options",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Angular project to configure."
+    }
+  }
+}

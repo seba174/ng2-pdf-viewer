@@ -1,5 +1,12 @@
 # Changelog
 
+## 21.0.1 - 07.05.2026
+
+- Load PDF.js worker, cMaps, and viewer image assets from same-origin app assets by default instead of CDN URLs.
+- Document the required Angular asset copy configuration for CSP-compatible deployments.
+- Move the library source into `projects/ng2-pdf-viewer` so the demo app no longer owns the package code.
+- Add an Angular `ng add` schematic that configures PDF.js worker, cMap, and viewer image assets.
+
 ## 21.0.0 - 17.04.2026
 
 - Fork published as `@seba174/ng2-pdf-viewer`

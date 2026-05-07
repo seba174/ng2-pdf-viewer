@@ -10,7 +10,7 @@ git clone https://github.com/seba174/ng2-pdf-viewer.git
 npm install
 ```
 
-3. Run the project
+3. Run the integration app
 ```
 npm start
 ```
@@ -20,7 +20,7 @@ npm start
 http://localhost:4200/
 ```
 
-5. Make changes under `src/`.
+5. Make library changes under `projects/ng2-pdf-viewer/src` and integration-app changes under `src`.
 - Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) when writing commit messages
 
 6. Create pull request

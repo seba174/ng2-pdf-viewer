@@ -34,7 +34,7 @@ jobs:
           CI: true
         run: npm run test:ci
 
-      - name: Build demo
+      - name: Build integration app
         run: npm run build
 
       - name: Build package

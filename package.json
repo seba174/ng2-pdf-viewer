@@ -27,12 +27,11 @@
   "keywords": [
     "angular",
     "pdf",
+    "pdf-viewer",
     "angular-pdf",
-    "angular2-pdf",
     "angular21",
-    "ng2",
-    "ng2-pdf",
-    "pdfjs"
+    "pdfjs",
+    "pdfjs-dist"
   ],
   "author": "seba174",
   "bugs": {

@@ -43,7 +43,7 @@ npm install @seba174/ng2-pdf-viewer
 
 ## PDF.js assets
 
-The viewer uses same-origin PDF.js assets by default. No CDN URLs are loaded by the library.
+The viewer uses same-origin PDF.js assets by default. No CDN URLs are loaded by the library, and applications do not need a direct `pdfjs-dist` dependency just to serve the worker or cMaps.
 
 Run the Angular schematic to configure the worker, cMaps, and viewer images:
 
@@ -56,17 +56,17 @@ If you configure assets manually, add these entries to the build target's `asset
 ```json
 {
   "glob": "pdf.worker.min.mjs",
-  "input": "node_modules/pdfjs-dist/legacy/build",
+  "input": "node_modules/@seba174/ng2-pdf-viewer/assets/pdfjs/legacy/build",
   "output": "assets/pdfjs/legacy/build"
 },
 {
   "glob": "**/*",
-  "input": "node_modules/pdfjs-dist/cmaps",
+  "input": "node_modules/@seba174/ng2-pdf-viewer/assets/pdfjs/cmaps",
   "output": "assets/pdfjs/cmaps"
 },
 {
   "glob": "**/*",
-  "input": "node_modules/pdfjs-dist/web/images",
+  "input": "node_modules/@seba174/ng2-pdf-viewer/assets/pdfjs/web/images",
   "output": "assets/pdfjs/web/images"
 }
 ```
@@ -378,7 +378,7 @@ Url for non-latin characters source maps.
 
 Default url is `assets/pdfjs/cmaps/`, resolved against the document base URL. You can also set the application default with `providePdfViewer({ cMapsUrl })`.
 
-To use a different path, copy `node_modules/pdfjs-dist/cmaps` to your chosen assets folder and pass that path to `[c-maps-url]`.
+To use a different path, copy `node_modules/@seba174/ng2-pdf-viewer/assets/pdfjs/cmaps` to your chosen assets folder and pass that path to `[c-maps-url]`.
 
 ### [show-borders]
 

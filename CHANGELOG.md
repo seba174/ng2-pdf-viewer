@@ -1,5 +1,10 @@
 # Changelog
 
+## 21.0.2 - 07.05.2026
+
+- Package PDF.js worker, cMap, and viewer image assets inside `@seba174/ng2-pdf-viewer`.
+- Update the `ng add` schematic to copy PDF.js assets from the library package instead of requiring a direct application `pdfjs-dist` dependency.
+
 ## 21.0.1 - 07.05.2026
 
 - Load PDF.js worker, cMaps, and viewer image assets from same-origin app assets by default instead of CDN URLs.

@@ -1,6 +1,6 @@
 {
   "name": "@seba174/ng2-pdf-viewer",
-  "version": "21.0.1",
+  "version": "21.0.2",
   "description": "Angular 21+ standalone component for rendering PDF",
   "license": "MIT",
   "publishConfig": {

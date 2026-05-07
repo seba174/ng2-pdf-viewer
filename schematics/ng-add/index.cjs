@@ -1,19 +1,21 @@
 const { SchematicsException } = require('@angular-devkit/schematics');
 
+const PACKAGE_ASSET_ROOT = 'node_modules/@seba174/ng2-pdf-viewer/assets/pdfjs';
+
 const PDFJS_ASSETS = [
   {
     glob: 'pdf.worker.min.mjs',
-    input: 'node_modules/pdfjs-dist/legacy/build',
+    input: `${PACKAGE_ASSET_ROOT}/legacy/build`,
     output: 'assets/pdfjs/legacy/build'
   },
   {
     glob: '**/*',
-    input: 'node_modules/pdfjs-dist/cmaps',
+    input: `${PACKAGE_ASSET_ROOT}/cmaps`,
     output: 'assets/pdfjs/cmaps'
   },
   {
     glob: '**/*',
-    input: 'node_modules/pdfjs-dist/web/images',
+    input: `${PACKAGE_ASSET_ROOT}/web/images`,
     output: 'assets/pdfjs/web/images'
   }
 ];

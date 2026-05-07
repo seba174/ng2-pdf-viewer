@@ -84,13 +84,6 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
-            },
-            "docs": {
-              "outputPath": {
-                "base": "docs",
-                "browser": ""
-              },
-              "baseHref": "/ng2-pdf-viewer/"
             }
           },
           "defaultConfiguration": "production"

@@ -1,31 +1,29 @@
-name: CI
+name: Publish npm package
 
 on:
-  push:
-    branches: [master, main]
-  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
-  verify:
-    name: Node.js ${{ matrix.node-version }}
+  publish:
+    name: Publish @seba174/ng2-pdf-viewer
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [22.x, 24.x]
+    environment: npm
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 24.x
+          registry-url: https://registry.npmjs.org
           cache: npm
 
       - name: Install dependencies
@@ -39,8 +37,10 @@ jobs:
           CI: true
         run: npm run test:ci
 
-      - name: Build demo
-        run: npm run build
-
       - name: Build package
         run: npm run packagr
+
+      - name: Publish to npm
+        run: npm publish ./dist --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

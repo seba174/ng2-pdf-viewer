@@ -41,6 +41,4 @@ jobs:
         run: npm run packagr
 
       - name: Publish to npm
-        run: npm publish ./dist --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish ./dist --access public

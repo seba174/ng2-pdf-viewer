@@ -38,7 +38,7 @@ module.exports = defineConfig([
       "@angular-eslint/no-output-native": "off",
       "@angular-eslint/no-output-on-prefix": "off",
       // Carry forward prior tslint:recommended strictness; tightening
-      // these is out of scope for the Angular 21 upgrade.
+      // these is out of scope for the Angular 22 upgrade.
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/no-unused-vars": "off",
@@ -55,7 +55,7 @@ module.exports = defineConfig([
       angular.configs.templateAccessibility,
     ],
     rules: {
-      // Demo template a11y warnings out of scope for the Angular 21 upgrade.
+      // Demo template a11y warnings out of scope for the Angular 22 upgrade.
       "@angular-eslint/template/click-events-have-key-events": "off",
       "@angular-eslint/template/interactive-supports-focus": "off",
     },

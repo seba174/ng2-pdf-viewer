@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, SimpleChanges, OnInit, OnDestroy, AfterViewChecked, NgZone, inject, output, viewChild, input, booleanAttribute } from '@angular/core';
+import { Component, ElementRef, OnChanges, SimpleChanges, OnInit, OnDestroy, AfterViewChecked, NgZone, inject, output, viewChild, input, booleanAttribute, ChangeDetectionStrategy } from '@angular/core';
 import { from, fromEvent, Subject } from 'rxjs';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 import * as PDFJS from 'pdfjs-dist';
@@ -70,6 +70,7 @@ function resolveAssetUrl(path: string): string {
       <div class="pdfViewer"></div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./pdf-viewer.component.scss']
 })
 export class PdfViewerComponent
@@ -287,7 +288,6 @@ export class PdfViewerComponent
 
     if (this._pdf) {
       this._latestScrolledPage = 0;
-      this._pdf.destroy();
       this._pdf = undefined;
     }
 

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, signal, viewChild } from '@angular/core';
+import { Component, HostListener, OnInit, signal, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   PdfViewerComponent,
   PDFDocumentProxy,
@@ -23,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'pdf-viewer-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     JsonPipe,

@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { Component, provideZonelessChangeDetection, ChangeDetectionStrategy } from '@angular/core';
 
 import { PdfViewerComponent } from './pdf-viewer.component';
 import { providePdfViewer } from './pdf-viewer.config';
@@ -11,6 +11,7 @@ import * as PDFJS from 'pdfjs-dist';
   template: `
     <pdf-viewer />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PdfViewerComponent]
 })
 class TestComponent { }

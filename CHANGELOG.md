@@ -1,5 +1,17 @@
 # Changelog
 
+## 22.0.0 - 08.06.2026
+
+- Upgrade the library and demo application to Angular 22.
+- Upgrade PDF.js integration to `pdfjs-dist` 6.x.
+- Bump the published package version to `22.0.0`.
+- Remove the legacy npm peer dependency workaround that was only needed for the Angular 21 toolchain.
+
+### Breaking Changes
+
+- Angular 22 or newer is required.
+- Node.js 22.22.3+, 24.15.0+, or 26+ is required for the development toolchain.
+
 ## 21.0.2 - 07.05.2026
 
 - Package PDF.js worker, cMap, and viewer image assets inside `@seba174/ng2-pdf-viewer`.

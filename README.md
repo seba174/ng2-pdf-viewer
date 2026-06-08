@@ -8,7 +8,7 @@
   </a>
 </p>
 
-> PDF Viewer Component for Angular 21+ (standalone)
+> PDF Viewer Component for Angular 22+ (standalone)
 
 ### Maintenance
 
@@ -29,7 +29,7 @@ This fork continues the original API surface with current Angular and pdf.js too
 
 ## Install
 
-### Angular >= 21
+### Angular >= 22
 ```
 npm install @seba174/ng2-pdf-viewer
 ```
@@ -37,9 +37,9 @@ npm install @seba174/ng2-pdf-viewer
 
 ## Requirements
 
-- Angular 21.0.0 or newer.
-- Node 22.13+ / 24+.
-- Modern browsers supported by Angular 21 and `pdfjs-dist` 5.x.
+- Angular 22.0.0 or newer.
+- Node 22.22.3+ / 24.15.0+ / 26+.
+- Modern browsers supported by Angular 22 and `pdfjs-dist` 6.x.
 
 ## PDF.js assets
 

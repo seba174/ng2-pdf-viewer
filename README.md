@@ -77,6 +77,27 @@ The default runtime paths are resolved against the document base URL:
 - cMaps: `assets/pdfjs/cmaps/`
 - viewer images: `assets/pdfjs/web/images/`
 
+### Static host MIME types
+
+The PDF.js worker is an ES module. Browsers require the worker file to be served with a JavaScript MIME type, so static hosts must map `.mjs` files correctly.
+
+The `ng add` schematic updates existing `web.config` files referenced by the selected project's build assets. If you configure IIS manually, add this under the root `system.webServer` section:
+
+```xml
+<system.webServer>
+  <staticContent>
+    <remove fileExtension=".mjs" />
+    <mimeMap fileExtension=".mjs" mimeType="text/javascript" />
+  </staticContent>
+</system.webServer>
+```
+
+The worker request should return one of the browser-supported JavaScript content types, for example:
+
+```http
+Content-Type: text/javascript
+```
+
 ## Configuration
 
 Most applications do not need runtime configuration. If your app serves PDF.js assets from a different path, configure the viewer once during bootstrap:

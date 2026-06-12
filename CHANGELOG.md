@@ -1,5 +1,10 @@
 # Changelog
 
+## 22.0.1 - 12.06.2026
+
+- Update the `ng add` schematic to configure IIS `.mjs` MIME mappings in existing `web.config` asset files.
+- Document the required static-host MIME type for the PDF.js module worker.
+
 ## 22.0.0 - 08.06.2026
 
 - Upgrade the library and demo application to Angular 22.

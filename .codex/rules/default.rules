@@ -1,0 +1,16 @@
+# Repo-scoped Codex command approval rules.
+
+prefix_rule(
+    pattern = ["npm", "run", "build"],
+    decision = "allow",
+    justification = "Allow the Angular library build script for this repository outside the sandbox.",
+    match = [
+        "npm run build",
+    ],
+    not_match = [
+        "npm run",
+        "npm run build:stats",
+        "npm run watch",
+        "npm install",
+    ],
+)

@@ -1,5 +1,10 @@
 # Changelog
 
+## 22.0.2 - 24.09.2026
+
+- Upgrade the bundled PDF.js runtime and assets to `pdfjs-dist` 6.3.289.
+- Upgrade the development toolchain to Angular 22.2 and refresh lint and test dependencies.
+
 ## 22.0.1 - 12.06.2026
 
 - Update the `ng add` schematic to configure IIS `.mjs` MIME mappings in existing `web.config` asset files.
